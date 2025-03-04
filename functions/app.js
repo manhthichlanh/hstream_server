@@ -67,31 +67,31 @@ const handleRequest = async (req, res) => {
   }
 }
 
-app.get("/:year/:series/:episode/thumbs.vtt", async (req, res, next) => {
+router.get("/:year/:series/:episode/thumbs.vtt", async (req, res, next) => {
     const urlPath = `/${req.params.year}/${req.params.series}/${req.params.episode}/thumbs.vtt`;
     req.urlPath = urlPath;
     return next();
 }, handleRequest);
 
-app.get("/:year/:series/:episode/sprite.jpg", async (req, res, next) => {
+router.get("/:year/:series/:episode/sprite.jpg", async (req, res, next) => {
     const urlPath = `/${req.params.year}/${req.params.series}/${req.params.episode}/sprite.jpg`;
     req.urlPath = urlPath;
     return next();
 }, handleRequest);
 
-app.get("/:year/:series/:episode/eng.ass", async (req, res, next) => {
+router.get("/:year/:series/:episode/eng.ass", async (req, res, next) => {
     const urlPath = `/${req.params.year}/${req.params.series}/${req.params.episode}/eng.ass`;
     req.urlPath = urlPath;
     return next();
 }, handleRequest);
 
-app.get("/:year/:series/:episode/:quality/manifest.mpd", async (req, res, next) => {
+router.get("/:year/:series/:episode/:quality/manifest.mpd", async (req, res, next) => {
     const urlPath = `/${req.params.year}/${req.params.series}/${req.params.episode}/${req.params.quality}/manifest.mpd`;
     req.urlPath = urlPath;
     return next();
 }, handleRequest);
 
-app.get("/:year/:series/:episode/:quality/chunks/:chunk", async (req, res, next) => {
+router.get("/:year/:series/:episode/:quality/chunks/:chunk", async (req, res, next) => {
     const urlPath = `/${req.params.year}/${req.params.series}/${req.params.episode}/${req.params.quality}/chunks/${req.params.chunk}`;
     req.urlPath = urlPath;
     return next();
@@ -101,6 +101,9 @@ router.get("/", (req, res) => {
     res.send("App is running..");
 });
 
-app.use("/.netlify/functions/app", router);
-
-module.exports.handler = serverless(app);
+app.use("/.netlify/functions/api/", router);
+const handler = serverless(app);
+module.exports.handler = async (event,context) => {
+    const result = await handler(event,context);    
+    return result;
+}
