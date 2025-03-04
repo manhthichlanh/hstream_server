@@ -1,7 +1,7 @@
 {
   "name": "hstream_server",
   "version": "1.0.0",
-  "main": "index.js.js",
+  "main": "index.js",
   "scripts": {
     "build": "netlify deploy --prod",
     "test": "echo \"Error: no test specified\" && exit 1"
