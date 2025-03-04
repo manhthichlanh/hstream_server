@@ -65,7 +65,7 @@ const handleRequest = async (req, res) => {
     return res.status(500).json({ error: "Không thể lấy tài nguyên từ server gốc" });
   }
 }
-app.use("/api/", router);
+app.use("/", router);
 
 router.get("/:year/:series/:episode/thumbs.vtt", async (req, res, next) => {
     const urlPath = `/${req.params.year}/${req.params.series}/${req.params.episode}/thumbs.vtt`;
@@ -96,9 +96,5 @@ router.get("/:year/:series/:episode/:quality/chunks/:chunk", async (req, res, ne
     req.urlPath = urlPath;
     return next();
 }, handleRequest);
-
-router.get("/", (req, res) => {
-    res.send("App is running..");
-});
 
 module.exports = app;
