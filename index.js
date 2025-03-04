@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require("cors");
+const router = express.Router();;
 
 const app = express();
 app.use(express.json());
@@ -95,4 +96,9 @@ app.get("/:year/:series/:episode/:quality/chunks/:chunk", async (req, res, next)
     return next();
 }, handleRequest);
 
-app.listen(3000, () => console.log("🚀 Server running on port 3000"));
+router.get("/", (req, res) => {
+    res.send("App is running..");
+});
+
+app.use("/.netlify/functions/app", router);
+module.exports.handler = serverless(app);
