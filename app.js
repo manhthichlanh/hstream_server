@@ -1,7 +1,6 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require("cors");
-const serverless = require("serverless-http");
 const router = express.Router();;
 
 const app = express();
@@ -66,6 +65,7 @@ const handleRequest = async (req, res) => {
     return res.status(500).json({ error: "Không thể lấy tài nguyên từ server gốc" });
   }
 }
+app.use("/api/", router);
 
 router.get("/:year/:series/:episode/thumbs.vtt", async (req, res, next) => {
     const urlPath = `/${req.params.year}/${req.params.series}/${req.params.episode}/thumbs.vtt`;
@@ -101,9 +101,4 @@ router.get("/", (req, res) => {
     res.send("App is running..");
 });
 
-app.use("/.netlify/functions/api/", router);
-const handler = serverless(app);
-module.exports.handler = async (event,context) => {
-    const result = await handler(event,context);    
-    return result;
-}
+module.exports = app;
